@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -30,6 +30,6 @@ import com.google.inject.BindingAnnotation;
 @Documented
 @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonSerializer
+public @interface JsonAutodetectDeserializer
 {
 }

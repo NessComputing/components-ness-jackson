@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
-import static ness.jackson.JacksonSerializerBinder.keyFor;
+import static com.nesscomputing.jackson.JacksonSerializerBinder.keyFor;
 
 import java.lang.annotation.Annotation;
 

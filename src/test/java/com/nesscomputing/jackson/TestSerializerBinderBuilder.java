@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -26,6 +26,10 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigModule;
+import com.nesscomputing.jackson.JacksonSerializerBinder;
+import com.nesscomputing.jackson.Json;
+import com.nesscomputing.jackson.NessJacksonModule;
+import com.nesscomputing.jackson.Smile;
 
 public class TestSerializerBinderBuilder {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
 import com.nesscomputing.callback.Callback;
 

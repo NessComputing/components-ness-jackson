@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.skife.config.Config;
+import org.skife.config.Default;
 
-import com.google.inject.BindingAnnotation;
-
-/**
- * Marker annotation for using the json based Jackson code.
- */
-@BindingAnnotation
-@Documented
-@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface JsonDeserializer
+public abstract class NessJacksonConfig
 {
+    public enum NessJacksonTimeFormat
+    {
+        MILLIS, ISO8601;
+    }
+
+    @Config("ness.jackson.time-format")
+    @Default("MILLIS")
+    public NessJacksonTimeFormat getTimeFormat()
+    {
+        return NessJacksonTimeFormat.MILLIS;
+    }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
 import java.io.IOException;
 
@@ -44,6 +44,8 @@ import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.nesscomputing.config.ConfigModule;
+import com.nesscomputing.jackson.NessJacksonModule;
+import com.nesscomputing.jackson.NessObjectMapperBinder;
 
 public class TestNessObjectMapperProvider
 {

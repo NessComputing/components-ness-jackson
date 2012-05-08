@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
-import org.skife.config.Config;
-import org.skife.config.Default;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public abstract class NessJacksonConfig
+import com.google.inject.BindingAnnotation;
+
+/**
+ * Marker annotation for using the smile based Jackson code.
+ */
+@BindingAnnotation
+@Documented
+@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SmileSerializer
 {
-    public enum NessJacksonTimeFormat
-    {
-        MILLIS, ISO8601;
-    }
-
-    @Config("ness.jackson.time-format")
-    @Default("MILLIS")
-    public NessJacksonTimeFormat getTimeFormat()
-    {
-        return NessJacksonTimeFormat.MILLIS;
-    }
 }

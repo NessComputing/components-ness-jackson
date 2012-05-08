@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ness.jackson;
+package com.nesscomputing.jackson;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
@@ -28,6 +28,11 @@ import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.name.Names;
 import com.nesscomputing.config.ConfigModule;
+import com.nesscomputing.jackson.JacksonFormatConfig;
+import com.nesscomputing.jackson.JacksonFormatObjectMapperProvider;
+import com.nesscomputing.jackson.Json;
+import com.nesscomputing.jackson.NessJacksonModule;
+import com.nesscomputing.jackson.Smile;
 
 public class TestJacksonFormatObjectMapperProvider
 {
