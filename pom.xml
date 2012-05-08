@@ -10,9 +10,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git://github.com/NessComputing/components-ness-httpserver.git</connection>
-    <developerConnection>scm:git:git@github.com:NessComputing/components-ness-httpserver.git</developerConnection>
-    <url>http://github.com/NessComputing/components-ness-httpserver</url>
+    <connection>scm:git:git://github.com/NessComputing/components-ness-jackson.git</connection>
+    <developerConnection>scm:git:git@github.com:NessComputing/components-ness-jackson.git</developerConnection>
+    <url>http://github.com/NessComputing/components-ness-jackson</url>
   </scm>
 
   <groupId>com.nesscomputing.components</groupId>
