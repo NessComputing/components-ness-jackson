@@ -16,6 +16,8 @@
 package com.nesscomputing.jackson;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -43,15 +45,24 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Modules;
 import com.nesscomputing.config.ConfigModule;
 import com.nesscomputing.jackson.NessJacksonModule;
 import com.nesscomputing.jackson.NessObjectMapperBinder;
+import com.nesscomputing.jackson.uuid.CustomUuidDeserializer;
 
 public class TestNessObjectMapperProvider
 {
     private ObjectMapper getObjectMapper(final Module module)
     {
+        return getObjectMapper(module, new AbstractModule() { @Override protected void configure() {} });
+    }
+
+    private ObjectMapper getObjectMapper(final Module module, final Module overrides)
+    {
         final Injector injector = Guice.createInjector(Stage.PRODUCTION,
+                Modules.override(
                                                        ConfigModule.forTesting(),
                                                        new NessJacksonModule(),
                                                        new AbstractModule() {
@@ -61,7 +72,7 @@ public class TestNessObjectMapperProvider
                     install(module);
                 }
             }
-        });
+        }).with(overrides));
 
         return injector.getInstance(ObjectMapper.class);
     }
@@ -88,6 +99,30 @@ public class TestNessObjectMapperProvider
 	    Multimap<String, String> map = mapper.readValue("{\"a\":[\"b\",\"c\"]}", new TypeReference<ImmutableMultimap<String, String>>() {});
 	    Assert.assertEquals(ImmutableMultimap.of("a", "b", "a", "c"), map);
 	}
+
+    // This test ensures that the CustomUuidModule is correctly installed
+    @Test
+    public void testCustomUUID() throws Exception {
+        final UUID orig = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+        final AtomicBoolean called = new AtomicBoolean(false);
+        ObjectMapper mapper = getObjectMapper(null, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(new TypeLiteral<JsonDeserializer<UUID>>() {}).toInstance(new CustomUuidDeserializer() {
+                    @Override
+                    protected UUID _deserialize(String value,
+                            DeserializationContext ctxt) throws IOException, JsonProcessingException {
+                        UUID foo = super._deserialize(value, ctxt);
+                        called.set(true);
+                        return foo;
+                    }
+                });
+            }
+        });
+        UUID uuid = mapper.readValue('"' + orig.toString() + '"', new TypeReference<UUID>(){});
+        Assert.assertEquals(orig, uuid);
+        Assert.assertTrue(called.get());
+    }
 
     public static class DummyBean
     {
