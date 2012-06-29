@@ -25,8 +25,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.nesscomputing.config.ConfigProvider;
-import com.nesscomputing.jackson.CustomUuidDeserializer;
-import com.nesscomputing.jackson.CustomUuidModule;
 
 public class NessJacksonModule extends AbstractModule
 {
