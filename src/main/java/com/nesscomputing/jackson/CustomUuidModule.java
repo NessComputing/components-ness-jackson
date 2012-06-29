@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.jackson.uuid;
+package com.nesscomputing.jackson;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ import org.codehaus.jackson.map.module.SimpleModule;
 
 import com.google.inject.Inject;
 
-public class CustomUuidModule extends SimpleModule
+class CustomUuidModule extends SimpleModule
 {
     @Inject
     public CustomUuidModule(JsonDeserializer<UUID> d) {

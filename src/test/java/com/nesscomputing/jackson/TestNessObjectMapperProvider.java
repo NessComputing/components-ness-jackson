@@ -50,7 +50,7 @@ import com.google.inject.util.Modules;
 import com.nesscomputing.config.ConfigModule;
 import com.nesscomputing.jackson.NessJacksonModule;
 import com.nesscomputing.jackson.NessObjectMapperBinder;
-import com.nesscomputing.jackson.uuid.CustomUuidDeserializer;
+import com.nesscomputing.jackson.CustomUuidDeserializer;
 
 public class TestNessObjectMapperProvider
 {

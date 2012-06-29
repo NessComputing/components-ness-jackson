@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.jackson.uuid;
+package com.nesscomputing.jackson;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -24,7 +24,7 @@ import org.codehaus.jackson.map.deser.std.FromStringDeserializer.UUIDDeserialize
 
 import com.nesscomputing.uuid.NessUUID;
 
-public class CustomUuidDeserializer extends UUIDDeserializer
+class CustomUuidDeserializer extends UUIDDeserializer
 {
     @Override
     protected UUID _deserialize(String value, DeserializationContext ctxt)
