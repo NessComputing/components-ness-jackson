@@ -44,6 +44,8 @@ public class NessJacksonModule extends AbstractModule
 
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new GuavaModule());
         bind(new TypeLiteral<org.codehaus.jackson.map.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
+
         NessObjectMapperBinder.bindJacksonModule(binder()).to(CustomUuidModule.class).in(Scopes.SINGLETON);
+        NessObjectMapperBinder.bindJacksonModule(binder()).to(MapEntryModule.class);
     }
 }
