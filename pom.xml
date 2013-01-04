@@ -77,7 +77,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson</groupId>
       <artifactId>jackson-datatype-guava</artifactId>
-      <version>1.9.1-NESS-1.0</version>
+      <version>1.9.2</version>
     </dependency>
 
     <dependency>
