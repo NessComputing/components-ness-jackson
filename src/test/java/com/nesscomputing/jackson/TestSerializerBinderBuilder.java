@@ -18,18 +18,15 @@ package com.nesscomputing.jackson;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
 import com.google.common.base.Function;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
+
+import org.junit.Test;
+
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigModule;
-import com.nesscomputing.jackson.JacksonSerializerBinder;
-import com.nesscomputing.jackson.Json;
-import com.nesscomputing.jackson.NessJacksonModule;
-import com.nesscomputing.jackson.Smile;
 
 public class TestSerializerBinderBuilder {
 

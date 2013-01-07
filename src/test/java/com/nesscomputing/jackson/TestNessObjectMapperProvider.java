@@ -19,20 +19,17 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.type.TypeReference;
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMultimap;
@@ -47,10 +44,11 @@ import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.nesscomputing.config.ConfigModule;
-import com.nesscomputing.jackson.NessJacksonModule;
-import com.nesscomputing.jackson.NessObjectMapperBinder;
-import com.nesscomputing.jackson.CustomUuidDeserializer;
 
 public class TestNessObjectMapperProvider
 {

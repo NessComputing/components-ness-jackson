@@ -15,11 +15,11 @@
  */
 package com.nesscomputing.jackson;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import com.nesscomputing.logging.Log;
 
 /**

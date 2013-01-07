@@ -15,17 +15,17 @@
  */
 package com.nesscomputing.jackson;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
+
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.nesscomputing.config.ConfigModule;
-import com.nesscomputing.jackson.NessJacksonModule;
 
 public class TestNessJacksonModule
 {

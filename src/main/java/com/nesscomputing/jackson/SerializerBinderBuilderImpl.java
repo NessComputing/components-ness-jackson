@@ -19,9 +19,8 @@ import static com.nesscomputing.jackson.JacksonSerializerBinder.keyFor;
 
 import java.lang.annotation.Annotation;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.inject.AbstractModule;
@@ -31,6 +30,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.util.Types;
+
 import com.nesscomputing.callback.Callback;
 
 class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {

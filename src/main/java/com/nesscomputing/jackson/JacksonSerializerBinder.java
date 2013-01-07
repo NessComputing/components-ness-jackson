@@ -18,13 +18,12 @@ package com.nesscomputing.jackson;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
-
-import org.codehaus.jackson.type.TypeReference;
 
 /**
  * Provides support for binding Function instances that use Jackson to transform data to or from serialized form

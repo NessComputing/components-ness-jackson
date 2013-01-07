@@ -15,8 +15,7 @@
  */
 package com.nesscomputing.jackson;
 
-import org.codehaus.jackson.map.Module;
-
+import com.fasterxml.jackson.databind.Module;
 import com.google.inject.Binder;
 import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
@@ -55,6 +54,3 @@ public final class NessObjectMapperBinder
         return optionBinder.addBinding(option);
     }
 }
-
-
-

@@ -17,10 +17,9 @@ package com.nesscomputing.jackson;
 
 import java.util.UUID;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.module.SimpleModule;
-
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.inject.Inject;
 
 class CustomUuidModule extends SimpleModule

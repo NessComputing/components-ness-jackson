@@ -24,7 +24,7 @@
   <description>Jackson related code</description>
 
   <properties>
-    <dep.jackson.version>1.9.9</dep.jackson.version>
+    <dep.jackson.version>2.1.2</dep.jackson.version>
   </properties>
 
   <dependencies>
@@ -45,18 +45,23 @@
     </dependency>
 
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
       <version>${dep.jackson.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
       <version>${dep.jackson.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-smile</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${dep.jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-smile</artifactId>
       <version>${dep.jackson.version}</version>
     </dependency>
 
@@ -75,9 +80,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.fasterxml.jackson</groupId>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-guava</artifactId>
-      <version>1.9.2</version>
+      <version>${dep.jackson.version}</version>
     </dependency>
 
     <dependency>

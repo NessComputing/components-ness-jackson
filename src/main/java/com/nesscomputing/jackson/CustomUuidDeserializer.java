@@ -18,9 +18,9 @@ package com.nesscomputing.jackson;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.deser.std.FromStringDeserializer.UUIDDeserializer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.JdkDeserializers.UUIDDeserializer;
 
 import com.nesscomputing.uuid.NessUUID;
 

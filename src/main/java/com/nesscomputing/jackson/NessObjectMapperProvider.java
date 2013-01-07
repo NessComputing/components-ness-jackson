@@ -18,15 +18,14 @@ package com.nesscomputing.jackson;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.Module;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -55,10 +54,10 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
         this.jsonFactory = jsonFactory;
 
     	// This needs to be set, otherwise the mapper will fail on every new property showing up.
-        featureMap.put(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        featureMap.put(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // Don't write out nulls by default -- if you really want them, you can change it with setOptions later.
-        featureMap.put(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, false);
+        featureMap.put(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
     }
 
     @Inject(optional=true)
@@ -66,10 +65,10 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
     {
         switch(config.getTimeFormat()) {
         case MILLIS:
-            featureMap.put(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, Boolean.TRUE);
+            featureMap.put(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, Boolean.TRUE);
             break;
         case ISO8601:
-            featureMap.put(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, Boolean.FALSE);
+            featureMap.put(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, Boolean.FALSE);
             break;
         }
     }
@@ -101,11 +100,11 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
             else if (key instanceof JsonParser.Feature) {
                 mapper.configure(((JsonParser.Feature) key), entry.getValue());
             }
-            else if (key instanceof SerializationConfig.Feature) {
-                mapper.configure(((SerializationConfig.Feature) key), entry.getValue());
+            else if (key instanceof SerializationFeature) {
+                mapper.configure(((SerializationFeature) key), entry.getValue());
             }
-            else if (key instanceof DeserializationConfig.Feature) {
-                mapper.configure(((DeserializationConfig.Feature) key), entry.getValue());
+            else if (key instanceof DeserializationFeature) {
+                mapper.configure(((DeserializationFeature) key), entry.getValue());
             }
             else {
                 throw new IllegalArgumentException("Can not configure ObjectMapper with " + key.name());
@@ -116,7 +115,7 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
             mapper.registerModule(module);
         }
         // by default, don't serialize null values.
-        mapper.setSerializationInclusion(Inclusion.NON_NULL);
+        mapper.setSerializationInclusion(Include.NON_NULL);
 
 
         return mapper;
