@@ -37,7 +37,7 @@ public class JacksonSerializerBinder {
      * @param type the type we will transform
      * @return a builder
      */
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, final Class<T> type) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, final Class<T> type) {
         return new SerializerBinderBuilderImpl<T> (binder, new TypeReference<T>() {
             @Override
             public Type getType() {
@@ -52,11 +52,11 @@ public class JacksonSerializerBinder {
      * @param type the type we will transform
      * @return a builder
      */
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, TypeReference<T> type) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, TypeReference<T> type) {
         return new SerializerBinderBuilderImpl<T> (binder, type);
     }
 
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, final TypeLiteral<T> literal) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, final TypeLiteral<T> literal) {
         final TypeReference<T> type = new TypeReference<T>() {
             @Override
             public Type getType() {
