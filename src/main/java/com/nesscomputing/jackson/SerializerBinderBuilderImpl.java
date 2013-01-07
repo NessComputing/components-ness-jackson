@@ -241,7 +241,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -260,7 +260,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Smile ObjectMapper mapper) {
+        void setObjectMapper(@SmileMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -279,7 +279,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -301,7 +301,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -323,7 +323,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Smile ObjectMapper mapper) {
+        void setObjectMapper(@SmileMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -345,7 +345,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 

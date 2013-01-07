@@ -30,6 +30,6 @@ import com.google.inject.BindingAnnotation;
 @Documented
 @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Json
+public @interface JsonMapper
 {
 }

@@ -38,8 +38,8 @@ public class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
     }
 
     @Inject(optional=true)
-    void injectObjectMappers(@Json final ObjectMapper jsonObjectMapper,
-                             @Smile final ObjectMapper smileObjectMapper)
+    void injectObjectMappers(@JsonMapper final ObjectMapper jsonObjectMapper,
+                             @SmileMapper final ObjectMapper smileObjectMapper)
     {
         switch (jacksonFormatConfig.getDataFormat()) {
 

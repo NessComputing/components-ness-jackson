@@ -32,10 +32,10 @@ import com.nesscomputing.config.ConfigModule;
 
 public class TestJacksonFormatObjectMapperProvider
 {
-    @Inject @Json
+    @Inject @JsonMapper
     private ObjectMapper jsonMapper;
 
-    @Inject @Smile
+    @Inject @SmileMapper
     private ObjectMapper smileMapper;
 
     @Inject

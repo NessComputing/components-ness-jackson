@@ -32,10 +32,10 @@ public class NessJacksonModule extends AbstractModule
     public void configure()
     {
         // Annotated version (@Json) is also bound to json.
-        bind(ObjectMapper.class).annotatedWith(Json.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
+        bind(ObjectMapper.class).annotatedWith(JsonMapper.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
 
         // Annotated version (@Smile) is bound to the smile factory.
-        bind(ObjectMapper.class).annotatedWith(Smile.class).toProvider(new NessObjectMapperProvider(new SmileFactory())).in(Scopes.SINGLETON);
+        bind(ObjectMapper.class).annotatedWith(SmileMapper.class).toProvider(new NessObjectMapperProvider(new SmileFactory())).in(Scopes.SINGLETON);
 
         // Default (not annotated) instance is bound to json.
         bind(ObjectMapper.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
