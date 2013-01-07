@@ -26,10 +26,11 @@ import com.nesscomputing.uuid.NessUUID;
 
 class CustomUuidDeserializer extends UUIDDeserializer
 {
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected UUID _deserialize(String value, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
         return NessUUID.fromString(value);
     }
 }
-

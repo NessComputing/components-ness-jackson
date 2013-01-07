@@ -107,6 +107,8 @@ public class TestNessObjectMapperProvider
             @Override
             protected void configure() {
                 bind(new TypeLiteral<JsonDeserializer<UUID>>() {}).toInstance(new CustomUuidDeserializer() {
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     protected UUID _deserialize(String value,
                             DeserializationContext ctxt) throws IOException, JsonProcessingException {

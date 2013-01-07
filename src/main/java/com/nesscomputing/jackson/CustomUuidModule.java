@@ -24,10 +24,11 @@ import com.google.inject.Inject;
 
 class CustomUuidModule extends SimpleModule
 {
+    private static final long serialVersionUID = 1L;
+
     @Inject
     public CustomUuidModule(JsonDeserializer<UUID> d) {
-        super("CustomUuidModule", new Version(1, 0, 0, null));
+        super("CustomUuidModule", new Version(2, 0, 0, null, "com.nesscomputing.components", "ness-jackson/CustomUuidModule"));
         addDeserializer(UUID.class, d);
     }
 }
-
