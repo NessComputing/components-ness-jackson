@@ -15,17 +15,17 @@
  */
 package com.nesscomputing.jackson;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import com.nesscomputing.logging.Log;
 
 /**
  * An ObjectMapper provider that can be configured to return json or smile.
  */
-public class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
+class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
 {
     private final Log LOG = Log.findLog();
     private final JacksonFormatConfig jacksonFormatConfig;
@@ -38,8 +38,8 @@ public class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
     }
 
     @Inject(optional=true)
-    void injectObjectMappers(@Json final ObjectMapper jsonObjectMapper,
-                             @Smile final ObjectMapper smileObjectMapper)
+    void injectObjectMappers(@JsonMapper final ObjectMapper jsonObjectMapper,
+                             @SmileMapper final ObjectMapper smileObjectMapper)
     {
         switch (jacksonFormatConfig.getDataFormat()) {
 

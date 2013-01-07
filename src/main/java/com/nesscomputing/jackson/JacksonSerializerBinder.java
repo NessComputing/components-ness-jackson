@@ -18,13 +18,12 @@ package com.nesscomputing.jackson;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
-
-import org.codehaus.jackson.type.TypeReference;
 
 /**
  * Provides support for binding Function instances that use Jackson to transform data to or from serialized form
@@ -38,7 +37,7 @@ public class JacksonSerializerBinder {
      * @param type the type we will transform
      * @return a builder
      */
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, final Class<T> type) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, final Class<T> type) {
         return new SerializerBinderBuilderImpl<T> (binder, new TypeReference<T>() {
             @Override
             public Type getType() {
@@ -53,11 +52,11 @@ public class JacksonSerializerBinder {
      * @param type the type we will transform
      * @return a builder
      */
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, TypeReference<T> type) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, TypeReference<T> type) {
         return new SerializerBinderBuilderImpl<T> (binder, type);
     }
 
-    public static <T> SerializerBinderBuilder<T> bindSerializer(Binder binder, final TypeLiteral<T> literal) {
+    public static <T> SerializerBinderBuilder<T> builderOf(Binder binder, final TypeLiteral<T> literal) {
         final TypeReference<T> type = new TypeReference<T>() {
             @Override
             public Type getType() {

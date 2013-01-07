@@ -19,19 +19,17 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.BeanDescription;
-import org.codehaus.jackson.map.BeanProperty;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.DeserializerProvider;
-import org.codehaus.jackson.map.Deserializers;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.Module;
-import org.codehaus.jackson.type.JavaType;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
@@ -57,12 +55,11 @@ class MapEntryModule extends Module
 
     private static class MapEntryDeserializers extends Deserializers.Base {
         @Override
-        public JsonDeserializer<?> findBeanDeserializer(JavaType type, DeserializationConfig config,
-                DeserializerProvider provider, BeanDescription beanDesc, BeanProperty property)
+        public JsonDeserializer<?> findBeanDeserializer(JavaType type, DeserializationConfig config, BeanDescription beanDesc)
                 throws JsonMappingException
         {
             if (type.getRawClass().equals(Map.Entry.class)) {
-                return new MapEntryDeserializer(type, property);
+                return new MapEntryDeserializer(type);
             }
             return null;
         }
@@ -70,12 +67,10 @@ class MapEntryModule extends Module
 
     private static class MapEntryDeserializer extends JsonDeserializer<Map.Entry<?, ?>>
     {
-        private JavaType type;
-        private BeanProperty property;
+        private final JavaType type;
 
-        MapEntryDeserializer(JavaType type, BeanProperty property)
+        MapEntryDeserializer(JavaType type)
         {
-            this.property = property;
             this.type = type;
             Preconditions.checkArgument(type.containedTypeCount() == 2, "Map.Entry has exactly 2 child types");
         }
@@ -83,9 +78,8 @@ class MapEntryModule extends Module
         @Override
         public Entry<?, ?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException
         {
-            DeserializerProvider provider = ctxt.getDeserializerProvider();
-            JsonDeserializer<Object> deserK = provider.findValueDeserializer(ctxt.getConfig(), type.containedType(0), property);
-            JsonDeserializer<Object> deserV = provider.findValueDeserializer(ctxt.getConfig(), type.containedType(1), property);
+            JsonDeserializer<Object> deserK = ctxt.findContextualValueDeserializer(type.containedType(0), null);
+            JsonDeserializer<Object> deserV = ctxt.findContextualValueDeserializer(type.containedType(1), null);
 
             Object k = null, v = null;
 
@@ -105,7 +99,9 @@ class MapEntryModule extends Module
                 } else if ("value".equals(jp.getCurrentName())) {
                     v = deserV.deserialize(jp, ctxt);
                 } else {
-                    throw ctxt.unknownFieldException(Map.Entry.class, jp.getCurrentName());
+                    if (!ctxt.handleUnknownProperty(jp, this, Map.Entry.class, jp.getCurrentName())) {
+                        throw new JsonMappingException("Unknown Map.Entry property " + jp.getCurrentName(), jp.getCurrentLocation());
+                    }
                 }
             }
 

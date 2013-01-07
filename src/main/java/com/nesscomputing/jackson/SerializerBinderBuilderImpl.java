@@ -19,9 +19,8 @@ import static com.nesscomputing.jackson.JacksonSerializerBinder.keyFor;
 
 import java.lang.annotation.Annotation;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.inject.AbstractModule;
@@ -31,6 +30,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.util.Types;
+
 import com.nesscomputing.callback.Callback;
 
 class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
@@ -66,11 +66,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         binder.install(new AbstractModule() {
             @Override
             protected void configure() {
-                if (String.class != type.getType())
-                {
-                    bindSerializers(Json.class, Smile.class);
-                }
-                bindSerializers(JsonSerializer.class, SmileSerializer.class);
+                bindSerializers(JsonSerializerFunction.class, SmileSerializerFunction.class);
             }
 
             @SuppressWarnings("unchecked")
@@ -127,11 +123,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         binder.install(new AbstractModule() {
             @Override
             protected void configure() {
-                if (String.class != type.getType())
-                {
-                    bindDeserializers(Json.class, Smile.class, false);
-                }
-                bindDeserializers(JsonDeserializer.class, SmileDeserializer.class, true);
+                bindDeserializers(JsonDeserializerFunction.class, SmileDeserializerFunction.class, true);
             }
 
             @SuppressWarnings("unchecked")
@@ -249,7 +241,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -268,7 +260,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Smile ObjectMapper mapper) {
+        void setObjectMapper(@SmileMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -287,7 +279,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -309,7 +301,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -331,7 +323,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Smile ObjectMapper mapper) {
+        void setObjectMapper(@SmileMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
@@ -353,7 +345,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         private ObjectMapper mapper;
 
         @Inject
-        void setObjectMapper(@Json ObjectMapper mapper) {
+        void setObjectMapper(@JsonMapper ObjectMapper mapper) {
             this.mapper = mapper;
         }
 
