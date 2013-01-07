@@ -17,13 +17,13 @@ package com.nesscomputing.jackson;
 
 import java.util.UUID;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.smile.SmileFactory;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+
 import com.nesscomputing.config.ConfigProvider;
 
 public class NessJacksonModule extends AbstractModule
@@ -32,10 +32,10 @@ public class NessJacksonModule extends AbstractModule
     public void configure()
     {
         // Annotated version (@Json) is also bound to json.
-        bind(ObjectMapper.class).annotatedWith(Json.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
+        bind(ObjectMapper.class).annotatedWith(JsonMapper.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
 
         // Annotated version (@Smile) is bound to the smile factory.
-        bind(ObjectMapper.class).annotatedWith(Smile.class).toProvider(new NessObjectMapperProvider(new SmileFactory())).in(Scopes.SINGLETON);
+        bind(ObjectMapper.class).annotatedWith(SmileMapper.class).toProvider(new NessObjectMapperProvider(new SmileFactory())).in(Scopes.SINGLETON);
 
         // Default (not annotated) instance is bound to json.
         bind(ObjectMapper.class).toProvider(NessObjectMapperProvider.class).in(Scopes.SINGLETON);
@@ -43,7 +43,7 @@ public class NessJacksonModule extends AbstractModule
         bind(NessJacksonConfig.class).toProvider(ConfigProvider.of(NessJacksonConfig.class)).in(Scopes.SINGLETON);
 
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new GuavaModule());
-        bind(new TypeLiteral<org.codehaus.jackson.map.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
+        bind(new TypeLiteral<com.fasterxml.jackson.databind.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
 
         NessObjectMapperBinder.bindJacksonModule(binder()).to(CustomUuidModule.class).in(Scopes.SINGLETON);
         NessObjectMapperBinder.bindJacksonModule(binder()).to(MapEntryModule.class);

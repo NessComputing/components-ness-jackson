@@ -19,14 +19,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.junit.Before;
-import org.junit.Test;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.nesscomputing.config.ConfigModule;
 
 public class TestMapEntryDeserialization

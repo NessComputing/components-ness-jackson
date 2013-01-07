@@ -15,10 +15,7 @@
  */
 package com.nesscomputing.jackson;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -27,19 +24,18 @@ import com.google.inject.Key;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.name.Names;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.nesscomputing.config.ConfigModule;
-import com.nesscomputing.jackson.JacksonFormatConfig;
-import com.nesscomputing.jackson.JacksonFormatObjectMapperProvider;
-import com.nesscomputing.jackson.Json;
-import com.nesscomputing.jackson.NessJacksonModule;
-import com.nesscomputing.jackson.Smile;
 
 public class TestJacksonFormatObjectMapperProvider
 {
-    @Inject @Json
+    @Inject @JsonMapper
     private ObjectMapper jsonMapper;
 
-    @Inject @Smile
+    @Inject @SmileMapper
     private ObjectMapper smileMapper;
 
     @Inject

@@ -17,18 +17,18 @@ package com.nesscomputing.jackson;
 
 import java.util.UUID;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.module.SimpleModule;
-
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.inject.Inject;
 
 class CustomUuidModule extends SimpleModule
 {
+    private static final long serialVersionUID = 1L;
+
     @Inject
     public CustomUuidModule(JsonDeserializer<UUID> d) {
-        super("CustomUuidModule", new Version(1, 0, 0, null));
+        super("CustomUuidModule", new Version(2, 0, 0, null, "com.nesscomputing.components", "ness-jackson/CustomUuidModule"));
         addDeserializer(UUID.class, d);
     }
 }
-

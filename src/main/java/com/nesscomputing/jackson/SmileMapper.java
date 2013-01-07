@@ -24,12 +24,12 @@ import java.lang.annotation.Target;
 import com.google.inject.BindingAnnotation;
 
 /**
- * Marker annotation for using the json based Jackson code.
+ * Marker annotation for using the smile based Jackson code.
  */
 @BindingAnnotation
 @Documented
 @Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonSerializer
+public @interface SmileMapper
 {
 }
