@@ -66,10 +66,6 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         binder.install(new AbstractModule() {
             @Override
             protected void configure() {
-                if (String.class != type.getType())
-                {
-                    bindSerializers(Json.class, Smile.class);
-                }
                 bindSerializers(JsonSerializer.class, SmileSerializer.class);
             }
 
@@ -127,11 +123,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         binder.install(new AbstractModule() {
             @Override
             protected void configure() {
-                if (String.class != type.getType())
-                {
-                    bindDeserializers(Json.class, Smile.class, false);
-                }
-                bindDeserializers(JsonDeserializer.class, SmileDeserializer.class, true);
+                bindDeserializers(JsonDeserializerFunction.class, SmileDeserializerFunction.class, true);
             }
 
             @SuppressWarnings("unchecked")
