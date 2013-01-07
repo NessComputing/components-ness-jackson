@@ -66,7 +66,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
         binder.install(new AbstractModule() {
             @Override
             protected void configure() {
-                bindSerializers(JsonSerializer.class, SmileSerializer.class);
+                bindSerializers(JsonSerializerFunction.class, SmileSerializerFunction.class);
             }
 
             @SuppressWarnings("unchecked")

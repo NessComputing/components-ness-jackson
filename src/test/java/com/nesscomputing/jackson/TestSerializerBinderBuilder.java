@@ -31,19 +31,19 @@ import com.nesscomputing.config.ConfigModule;
 public class TestSerializerBinderBuilder {
 
     @Inject
-    @Json
+    @JsonSerializerFunction
     Function<Integer, String> serializer;
 
     @Inject
-    @Json
+    @JsonDeserializerFunction
     Function<String, Integer> deserializer;
 
     @Inject
-    @Smile
+    @SmileSerializerFunction
     Function<Integer, byte[]> serializerBytes;
 
     @Inject
-    @Smile
+    @SmileDeserializerFunction
     Function<byte[], Integer> deserializerBytes;
 
     @Test
