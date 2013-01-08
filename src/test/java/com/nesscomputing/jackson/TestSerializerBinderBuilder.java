@@ -55,7 +55,7 @@ public class TestSerializerBinderBuilder {
                 install (new NessJacksonModule());
 
                 JacksonSerializerBinder.builderOf(binder(), Integer.class)
-                    .build();
+                    .bind();
             }
         }).injectMembers(this);
 
@@ -75,7 +75,7 @@ public class TestSerializerBinderBuilder {
                 install (new NessJacksonModule());
 
                 JacksonSerializerBinder.builderOf(binder(), Integer.class)
-                    .build();
+                    .bind();
             }
         }).injectMembers(this);
 

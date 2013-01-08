@@ -194,7 +194,7 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
     }
 
     @Override
-    public void build() {
+    public void bind() {
         buildSerializer();
         buildDeserializer();
     }

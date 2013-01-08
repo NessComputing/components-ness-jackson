@@ -44,5 +44,5 @@ public interface SerializerBinderBuilder<T> {
     /**
      * Bind all serialization and deserialization functions
      */
-    void build();
+    void bind();
 }
