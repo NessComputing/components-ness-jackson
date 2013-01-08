@@ -25,7 +25,7 @@ import com.nesscomputing.logging.Log;
 /**
  * An ObjectMapper provider that can be configured to return json or smile.
  */
-class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
+public class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
 {
     private final Log LOG = Log.findLog();
     private final JacksonFormatConfig jacksonFormatConfig;
