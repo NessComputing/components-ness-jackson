@@ -20,6 +20,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
@@ -43,6 +44,7 @@ public class NessJacksonModule extends AbstractModule
         bind(NessJacksonConfig.class).toProvider(ConfigProvider.of(NessJacksonConfig.class)).in(Scopes.SINGLETON);
 
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new GuavaModule());
+        NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new JodaModule());
         bind(new TypeLiteral<com.fasterxml.jackson.databind.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
 
         NessObjectMapperBinder.bindJacksonModule(binder()).to(CustomUuidModule.class).in(Scopes.SINGLETON);
