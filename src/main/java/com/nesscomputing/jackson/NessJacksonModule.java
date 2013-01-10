@@ -24,7 +24,7 @@ import com.google.inject.Scopes;
 import com.nesscomputing.config.ConfigProvider;
 import com.nesscomputing.jackson.datatype.NessCustomSerializerModule;
 
-public class NessJacksonModule extends AbstractModule
+public final class NessJacksonModule extends AbstractModule
 {
     @Override
     public void configure()
@@ -44,5 +44,17 @@ public class NessJacksonModule extends AbstractModule
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new JodaModule());
 
         install (new NessCustomSerializerModule());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj != null && obj.getClass() == NessJacksonModule.class;
     }
 }
