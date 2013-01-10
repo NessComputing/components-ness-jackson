@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.jackson;
+package com.nesscomputing.jackson.datatype;
 
-import java.io.IOException;
 import java.util.UUID;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.JdkDeserializers.UUIDDeserializer;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.inject.Inject;
 
-import com.nesscomputing.uuid.NessUUID;
-
-class CustomUuidDeserializer extends UUIDDeserializer
+class CustomUuidModule extends SimpleModule
 {
     private static final long serialVersionUID = 1L;
 
-    @Override
-    protected UUID _deserialize(String value, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
-        return NessUUID.fromString(value);
+    @Inject
+    public CustomUuidModule(JsonDeserializer<UUID> d) {
+        super("CustomUuidModule", new Version(2, 0, 0, null, "com.nesscomputing.components", "ness-jackson/CustomUuidModule"));
+        addDeserializer(UUID.class, d);
     }
 }
