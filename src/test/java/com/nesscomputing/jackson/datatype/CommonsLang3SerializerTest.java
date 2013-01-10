@@ -35,4 +35,12 @@ public class CommonsLang3SerializerTest
         assertEquals(newPair.getKey(), pair.getKey());
         assertEquals(newPair.getValue(), pair.getValue());
     }
+
+    @Test
+    public void testTrumpetPairCompatibility() throws IOException
+    {
+        Pair<String, Boolean> pair = mapper.readValue("{\"car\":\"foo\",\"cdr\":true}", new TypeReference<Pair<String, Boolean>>() { });
+        assertEquals("foo", pair.getKey());
+        assertEquals(true, pair.getValue());
+    }
 }

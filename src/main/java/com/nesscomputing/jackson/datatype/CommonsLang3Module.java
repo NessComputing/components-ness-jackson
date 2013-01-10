@@ -2,6 +2,7 @@ package com.nesscomputing.jackson.datatype;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -19,11 +20,15 @@ import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.ser.Serializers;
+import com.google.common.collect.ImmutableSet;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 class CommonsLang3Module extends Module
 {
+    private static final Set<String> KEY_NAMES = ImmutableSet.of("key", "left", "car");
+    private static final Set<String> VALUE_NAMES = ImmutableSet.of("value", "right", "cdr");
+
     @Override
     public String getModuleName()
     {
@@ -111,9 +116,15 @@ class CommonsLang3Module extends Module
                 }
                 expect(nextToken, JsonToken.FIELD_NAME, jp, ctxt);
                 jp.nextToken();
-                if ("key".equals(jp.getCurrentName())) {
+                if (KEY_NAMES.contains(jp.getCurrentName())) {
+                    if (k != null) {
+                        throw new JsonMappingException("Multiple key properties for Pair", jp.getCurrentLocation());
+                    }
                     k = deserK.deserialize(jp, ctxt);
-                } else if ("value".equals(jp.getCurrentName())) {
+                } else if (VALUE_NAMES.contains(jp.getCurrentName())) {
+                    if (v != null) {
+                        throw new JsonMappingException("Multiple value properties for Pair", jp.getCurrentLocation());
+                    }
                     v = deserV.deserialize(jp, ctxt);
                 } else {
                     if (!ctxt.handleUnknownProperty(jp, this, Map.Entry.class, jp.getCurrentName())) {
