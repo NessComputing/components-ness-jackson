@@ -15,17 +15,14 @@
  */
 package com.nesscomputing.jackson;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.google.inject.TypeLiteral;
-
 import com.nesscomputing.config.ConfigProvider;
+import com.nesscomputing.jackson.datatype.NessCustomSerializerModule;
 
 public class NessJacksonModule extends AbstractModule
 {
@@ -45,9 +42,7 @@ public class NessJacksonModule extends AbstractModule
 
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new GuavaModule());
         NessObjectMapperBinder.bindJacksonModule(binder()).toInstance(new JodaModule());
-        bind(new TypeLiteral<com.fasterxml.jackson.databind.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
 
-        NessObjectMapperBinder.bindJacksonModule(binder()).to(CustomUuidModule.class).in(Scopes.SINGLETON);
-        NessObjectMapperBinder.bindJacksonModule(binder()).to(MapEntryModule.class);
+        install (new NessCustomSerializerModule());
     }
 }
