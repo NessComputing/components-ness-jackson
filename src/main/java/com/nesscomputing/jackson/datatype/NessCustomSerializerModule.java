@@ -2,6 +2,7 @@ package com.nesscomputing.jackson.datatype;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
@@ -13,7 +14,7 @@ public class NessCustomSerializerModule extends AbstractModule
     @Override
     protected void configure()
     {
-        bind(new TypeLiteral<com.fasterxml.jackson.databind.JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
+        bind(new TypeLiteral<JsonDeserializer<UUID>>() {}).to(CustomUuidDeserializer.class);
 
         NessObjectMapperBinder.bindJacksonModule(binder()).to(CustomUuidModule.class).in(Scopes.SINGLETON);
         NessObjectMapperBinder.bindJacksonModule(binder()).to(MapEntryModule.class).in(Scopes.SINGLETON);
