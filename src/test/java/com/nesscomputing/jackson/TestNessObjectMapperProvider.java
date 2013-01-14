@@ -16,9 +16,6 @@
 package com.nesscomputing.jackson;
 
 import java.io.IOException;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -42,7 +39,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 
 import org.junit.Assert;
@@ -97,32 +93,6 @@ public class TestNessObjectMapperProvider
 	    Multimap<String, String> map = mapper.readValue("{\"a\":[\"b\",\"c\"]}", new TypeReference<ImmutableMultimap<String, String>>() {});
 	    Assert.assertEquals(ImmutableMultimap.of("a", "b", "a", "c"), map);
 	}
-
-    // This test ensures that the CustomUuidModule is correctly installed
-    @Test
-    public void testCustomUUID() throws Exception {
-        final UUID orig = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
-        final AtomicBoolean called = new AtomicBoolean(false);
-        ObjectMapper mapper = getObjectMapper(null, new AbstractModule() {
-            @Override
-            protected void configure() {
-                bind(new TypeLiteral<JsonDeserializer<UUID>>() {}).toInstance(new CustomUuidDeserializer() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    protected UUID _deserialize(String value,
-                            DeserializationContext ctxt) throws IOException, JsonProcessingException {
-                        UUID foo = super._deserialize(value, ctxt);
-                        called.set(true);
-                        return foo;
-                    }
-                });
-            }
-        });
-        UUID uuid = mapper.readValue('"' + orig.toString() + '"', new TypeReference<UUID>(){});
-        Assert.assertEquals(orig, uuid);
-        Assert.assertTrue(called.get());
-    }
 
     public static class DummyBean
     {
