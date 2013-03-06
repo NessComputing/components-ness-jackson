@@ -85,4 +85,20 @@ public class TestSerializerBinderBuilder {
 
         assertEquals(3, (int) deserializerBytes.apply(serialized));
     }
+
+    @Test
+    public void testDuplicateBindings()
+    {
+        Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure()
+            {
+                install (new ConfigModule(Config.getEmptyConfig()));
+                install (new NessJacksonModule());
+
+                JacksonSerializerBinder.builderOf(binder(), Integer.class).bind();
+                JacksonSerializerBinder.builderOf(binder(), Integer.class).bind();
+            }
+        });
+    }
 }
