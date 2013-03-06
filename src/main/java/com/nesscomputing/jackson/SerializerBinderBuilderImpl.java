@@ -31,6 +31,9 @@ import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.util.Types;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.nesscomputing.callback.Callback;
 
 class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
@@ -62,141 +65,169 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
 
     // END CONFIGURATION.  BEGIN BINDING
 
-    private void buildSerializer() {
-        binder.install(new AbstractModule() {
-            @Override
-            protected void configure() {
-                bindSerializers(JsonSerializerFunction.class, SmileSerializerFunction.class);
-            }
-
-            @SuppressWarnings("unchecked")
-            private void bindSerializers(Class<? extends Annotation> jsonSerializerAnnotation, Class<? extends Annotation> smileSerializerAnnotation)
-            {
-                // T -> String
-                SerializerProvider<T, String> stringProvider =
-                        new StringSerializerProvider<T>(action);
-
-                // T -> byte[]
-                SerializerProvider<T, byte[]> bytesProviderSmile = new SmileSerializerProvider<T>(action);
-                SerializerProvider<T, byte[]> bytesProviderJson = new JsonBytesSerializerProvider<T>(action);
-
-                // @Json T -> String
-                bind (keyFor(type, STRING_TYPE, jsonSerializerAnnotation))
-                    .toProvider(stringProvider).in(Scopes.SINGLETON);
-
-                // @Json ? super T -> String
-                bind ((Key<Function<? super T, String>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                Types.supertypeOf(type.getType()),
-                                String.class), jsonSerializerAnnotation))
-                    .toProvider(stringProvider).in(Scopes.SINGLETON);
-
-                // @Json T -> byte[]
-                bind (keyFor(type, BYTEA_TYPE, jsonSerializerAnnotation))
-                    .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
-
-                // @Json ? super T -> byte[]
-                bind ((Key<Function<? super T, byte[]>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                Types.supertypeOf(type.getType()),
-                                byte[].class), jsonSerializerAnnotation))
-                    .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
-
-                // @Smile T -> byte[]
-                bind (keyFor(type, BYTEA_TYPE, smileSerializerAnnotation))
-                    .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
-
-                // @Smile ? super T -> byte[]
-                bind ((Key<Function<? super T, byte[]>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                Types.supertypeOf(type.getType()),
-                                byte[].class), smileSerializerAnnotation))
-                    .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
-            }
-        });
-    }
-
-    private void buildDeserializer() {
-        binder.install(new AbstractModule() {
-            @Override
-            protected void configure() {
-                bindDeserializers(JsonDeserializerFunction.class, SmileDeserializerFunction.class, true);
-            }
-
-            @SuppressWarnings("unchecked")
-            private void bindDeserializers(Class<? extends Annotation> jsonDeserializerAnnotation, Class<? extends Annotation> smileDeserializerAnnotation, boolean bindAuto)
-            {
-                // String -> T
-                SerializerProvider<String, T> stringProvider = new StringDeserializerProvider<T>(type, action);
-
-                // byte[] -> T
-                SerializerProvider<byte[], T> bytesProviderSmile = new SmileDeserializerProvider<T>(type, action);
-                SerializerProvider<byte[], T> bytesProviderJson = new JsonBytesDeserializerProvider<T>(type, action);
-                Provider<Function<byte[], T>> bytesProviderAuto = new AutodetectDeserializerProvider<T>(bytesProviderJson, bytesProviderSmile);
-
-                // @Json String -> T
-                bind (keyFor(STRING_TYPE, type, jsonDeserializerAnnotation))
-                    .toProvider(stringProvider).in(Scopes.SINGLETON);
-
-                // @Json String -> ? extends T
-                bind ((Key<Function<String, ? extends T>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                String.class,
-                                Types.subtypeOf(type.getType()), jsonDeserializerAnnotation)))
-                    .toProvider(stringProvider).in(Scopes.SINGLETON);
-
-                // @Json byte[] -> T
-                bind (keyFor(BYTEA_TYPE, type, jsonDeserializerAnnotation))
-                    .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
-
-                // @Json byte[] -> ? extends T
-                bind ((Key<Function<byte[], ? extends T>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                byte[].class,
-                                Types.subtypeOf(type.getType())), jsonDeserializerAnnotation))
-                    .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
-
-                // @Smile byte[] -> T
-                bind (keyFor(BYTEA_TYPE, type, smileDeserializerAnnotation))
-                    .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
-
-                // @Smile byte[] -> ? extends T
-                bind ((Key<Function<byte[], ? extends T>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                byte[].class,
-                                Types.subtypeOf(type.getType())), smileDeserializerAnnotation))
-                    .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
-
-                if (!bindAuto)
-                {
-                    return;
-                }
-
-                // @Autodetect byte[] -> T
-                bind (keyFor(BYTEA_TYPE, type, JsonAutodetectDeserializer.class))
-                    .toProvider(bytesProviderAuto).in(Scopes.SINGLETON);
-
-                // @Autodetect byte[] -> ? extends T
-                bind ((Key<Function<byte[], ? extends T>>)
-                        Key.get(Types.newParameterizedType(
-                                Function.class,
-                                byte[].class,
-                                Types.subtypeOf(type.getType())), JsonAutodetectDeserializer.class))
-                    .toProvider(bytesProviderAuto).in(Scopes.SINGLETON);
-            }
-        });
-    }
-
     @Override
     public void bind() {
-        buildSerializer();
-        buildDeserializer();
+        binder.install(new BindingModule());
+    }
+
+    private class BindingModule extends AbstractModule
+    {
+        @Override
+        protected void configure()
+        {
+            install(new SerializerModule());
+            install(new DeserializerModule());
+        }
+
+        SerializerBinderBuilderImpl<?> getOuter()
+        {
+            return SerializerBinderBuilderImpl.this;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return new HashCodeBuilder().append(type.getType()).toHashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (! (obj instanceof SerializerBinderBuilderImpl<?>.BindingModule)) {
+                return false;
+            }
+            SerializerBinderBuilderImpl<?>.BindingModule other = (SerializerBinderBuilderImpl<?>.BindingModule) obj;
+            return new EqualsBuilder().append(type.getType(), other.getOuter().type.getType()).isEquals();
+        }
+    }
+
+    private class SerializerModule extends AbstractModule
+    {
+        @Override
+        protected void configure() {
+            bindSerializers(JsonSerializerFunction.class, SmileSerializerFunction.class);
+        }
+
+        @SuppressWarnings("unchecked")
+        private void bindSerializers(Class<? extends Annotation> jsonSerializerAnnotation, Class<? extends Annotation> smileSerializerAnnotation)
+        {
+            // T -> String
+            SerializerProvider<T, String> stringProvider =
+                    new StringSerializerProvider<T>(action);
+
+            // T -> byte[]
+            SerializerProvider<T, byte[]> bytesProviderSmile = new SmileSerializerProvider<T>(action);
+            SerializerProvider<T, byte[]> bytesProviderJson = new JsonBytesSerializerProvider<T>(action);
+
+            // @Json T -> String
+            bind (keyFor(type, STRING_TYPE, jsonSerializerAnnotation))
+                .toProvider(stringProvider).in(Scopes.SINGLETON);
+
+            // @Json ? super T -> String
+            bind ((Key<Function<? super T, String>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            Types.supertypeOf(type.getType()),
+                            String.class), jsonSerializerAnnotation))
+                .toProvider(stringProvider).in(Scopes.SINGLETON);
+
+            // @Json T -> byte[]
+            bind (keyFor(type, BYTEA_TYPE, jsonSerializerAnnotation))
+                .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
+
+            // @Json ? super T -> byte[]
+            bind ((Key<Function<? super T, byte[]>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            Types.supertypeOf(type.getType()),
+                            byte[].class), jsonSerializerAnnotation))
+                .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
+
+            // @Smile T -> byte[]
+            bind (keyFor(type, BYTEA_TYPE, smileSerializerAnnotation))
+                .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
+
+            // @Smile ? super T -> byte[]
+            bind ((Key<Function<? super T, byte[]>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            Types.supertypeOf(type.getType()),
+                            byte[].class), smileSerializerAnnotation))
+                .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
+        }
+    }
+
+    private class DeserializerModule extends AbstractModule
+    {
+        @Override
+        protected void configure() {
+            bindDeserializers(JsonDeserializerFunction.class, SmileDeserializerFunction.class, true);
+        }
+
+        @SuppressWarnings("unchecked")
+        private void bindDeserializers(Class<? extends Annotation> jsonDeserializerAnnotation, Class<? extends Annotation> smileDeserializerAnnotation, boolean bindAuto)
+        {
+            // String -> T
+            SerializerProvider<String, T> stringProvider = new StringDeserializerProvider<T>(type, action);
+
+            // byte[] -> T
+            SerializerProvider<byte[], T> bytesProviderSmile = new SmileDeserializerProvider<T>(type, action);
+            SerializerProvider<byte[], T> bytesProviderJson = new JsonBytesDeserializerProvider<T>(type, action);
+            Provider<Function<byte[], T>> bytesProviderAuto = new AutodetectDeserializerProvider<T>(bytesProviderJson, bytesProviderSmile);
+
+            // @Json String -> T
+            bind (keyFor(STRING_TYPE, type, jsonDeserializerAnnotation))
+                .toProvider(stringProvider).in(Scopes.SINGLETON);
+
+            // @Json String -> ? extends T
+            bind ((Key<Function<String, ? extends T>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            String.class,
+                            Types.subtypeOf(type.getType()), jsonDeserializerAnnotation)))
+                .toProvider(stringProvider).in(Scopes.SINGLETON);
+
+            // @Json byte[] -> T
+            bind (keyFor(BYTEA_TYPE, type, jsonDeserializerAnnotation))
+                .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
+
+            // @Json byte[] -> ? extends T
+            bind ((Key<Function<byte[], ? extends T>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            byte[].class,
+                            Types.subtypeOf(type.getType())), jsonDeserializerAnnotation))
+                .toProvider(bytesProviderJson).in(Scopes.SINGLETON);
+
+            // @Smile byte[] -> T
+            bind (keyFor(BYTEA_TYPE, type, smileDeserializerAnnotation))
+                .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
+
+            // @Smile byte[] -> ? extends T
+            bind ((Key<Function<byte[], ? extends T>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            byte[].class,
+                            Types.subtypeOf(type.getType())), smileDeserializerAnnotation))
+                .toProvider(bytesProviderSmile).in(Scopes.SINGLETON);
+
+            if (!bindAuto)
+            {
+                return;
+            }
+
+            // @Autodetect byte[] -> T
+            bind (keyFor(BYTEA_TYPE, type, JsonAutodetectDeserializer.class))
+                .toProvider(bytesProviderAuto).in(Scopes.SINGLETON);
+
+            // @Autodetect byte[] -> ? extends T
+            bind ((Key<Function<byte[], ? extends T>>)
+                    Key.get(Types.newParameterizedType(
+                            Function.class,
+                            byte[].class,
+                            Types.subtypeOf(type.getType())), JsonAutodetectDeserializer.class))
+                .toProvider(bytesProviderAuto).in(Scopes.SINGLETON);
+        }
     }
 
     // END BINDING.
