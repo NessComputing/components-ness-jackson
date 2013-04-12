@@ -74,6 +74,11 @@
       <artifactId>jackson-module-mrbean</artifactId>
       <version>${dep.jackson.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-afterburner</artifactId>
+      <version>${dep.jackson.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.google.inject</groupId>
