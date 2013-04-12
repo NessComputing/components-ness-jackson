@@ -58,6 +58,9 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
 
         // Don't write out nulls by default -- if you really want them, you can change it with setOptions later.
         featureMap.put(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+
+        // No need to flush after every value, which cuts throughput by ~30%
+        featureMap.put(SerializationFeature.FLUSH_AFTER_WRITE_VALUE, false);
     }
 
     @Inject(optional=true)
