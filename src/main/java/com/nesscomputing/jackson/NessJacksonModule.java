@@ -19,9 +19,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import com.fasterxml.jackson.module.mrbean.MrBeanModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+
 import com.nesscomputing.config.ConfigProvider;
 import com.nesscomputing.jackson.datatype.NessCustomSerializerModule;
 
@@ -48,6 +50,8 @@ public final class NessJacksonModule extends AbstractModule
 
         // MrBean is pretty safe to globally install, since it only deserializes types that would otherwise fail.
         NessObjectMapperBinder.bindJacksonModule(binder()).to(MrBeanModule.class);
+
+        NessObjectMapperBinder.bindJacksonModule(binder()).to(AfterburnerModule.class);
     }
 
     @Override
