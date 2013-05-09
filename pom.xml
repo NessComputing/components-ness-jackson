@@ -77,7 +77,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-afterburner</artifactId>
-      <version>${dep.jackson.version}-NESS-1.0</version>
+      <version>${dep.jackson.version}-NESS-1.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
