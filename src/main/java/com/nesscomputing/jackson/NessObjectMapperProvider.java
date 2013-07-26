@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -61,6 +62,9 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
 
         // No need to flush after every value, which cuts throughput by ~30%
         featureMap.put(SerializationFeature.FLUSH_AFTER_WRITE_VALUE, false);
+
+        // Awful JAXB shit
+        featureMap.put(MapperFeature.USE_GETTERS_AS_SETTERS, false);
     }
 
     @Inject(optional=true)
@@ -108,6 +112,8 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
             }
             else if (key instanceof DeserializationFeature) {
                 mapper.configure(((DeserializationFeature) key), entry.getValue());
+            } else if (key instanceof MapperFeature) {
+                mapper.configure(((MapperFeature) key), entry.getValue());
             }
             else {
                 throw new IllegalArgumentException("Can not configure ObjectMapper with " + key.name());
