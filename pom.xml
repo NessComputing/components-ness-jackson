@@ -24,7 +24,7 @@
   <description>Jackson related code</description>
 
   <properties>
-    <dep.jackson.version>2.2.1</dep.jackson.version>
+    <dep.jackson.version>2.2.2</dep.jackson.version>
   </properties>
 
   <dependencies>
@@ -77,12 +77,12 @@
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-afterburner</artifactId>
-      <version>${dep.jackson.version}-NESS-1.1</version>
+      <version>${dep.jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-guava</artifactId>
-      <version>2.2.0</version>
+      <version>${dep.jackson.version}</version>
     </dependency>
 
     <dependency>
