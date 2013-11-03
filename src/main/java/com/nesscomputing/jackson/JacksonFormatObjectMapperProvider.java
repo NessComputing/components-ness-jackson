@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import com.nesscomputing.logging.Log;
 
 /**
@@ -52,6 +51,9 @@ public class JacksonFormatObjectMapperProvider implements Provider<ObjectMapper>
             LOG.trace("Using SMILE format");
             this.objectMapper = smileObjectMapper;
             break;
+
+        default:
+            throw new IllegalStateException("Unknown format " + jacksonFormatConfig.getDataFormat());
         }
     }
 
