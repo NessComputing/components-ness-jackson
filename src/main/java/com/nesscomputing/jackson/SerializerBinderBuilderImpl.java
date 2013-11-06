@@ -173,7 +173,6 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
             // byte[] -> T
             SerializerProvider<byte[], T> bytesProviderSmile = new SmileDeserializerProvider<T>(type, action);
             SerializerProvider<byte[], T> bytesProviderJson = new JsonBytesDeserializerProvider<T>(type, action);
-            Provider<Function<byte[], T>> bytesProviderAuto = new AutodetectDeserializerProvider<T>(bytesProviderJson, bytesProviderSmile);
 
             // @Json String -> T
             bind (keyFor(STRING_TYPE, type, jsonDeserializerAnnotation))
@@ -216,6 +215,8 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
                 return;
             }
 
+            Provider<Function<byte[], T>> bytesProviderAuto = new AutodetectDeserializerProvider<T>(bytesProviderJson, bytesProviderSmile);
+
             // @Autodetect byte[] -> T
             bind (keyFor(BYTEA_TYPE, type, JsonAutodetectDeserializer.class))
                 .toProvider(bytesProviderAuto).in(Scopes.SINGLETON);
@@ -249,14 +250,14 @@ class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
                 @Override
                 public Out apply(In input) {
                     try {
-                        return serialize(input);
-                    } catch (Exception e) {
                         try {
+                            return serialize(input);
+                        } catch (Exception e) {
                             action.call(e);
-                        } catch (Exception e1) {
-                            throw Throwables.propagate(e1);
+                            return null;
                         }
-                        return null;
+                    } catch (Exception e) {
+                        throw Throwables.propagate(e);
                     }
                 }
             };

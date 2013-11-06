@@ -77,6 +77,8 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
         case ISO8601:
             featureMap.put(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, Boolean.FALSE);
             break;
+        default:
+            throw new IllegalStateException("Unknown time format: " + config.getTimeFormat());
         }
     }
 

@@ -28,7 +28,7 @@ import com.google.inject.util.Types;
 /**
  * Provides support for binding Function instances that use Jackson to transform data to or from serialized form
  */
-public class JacksonSerializerBinder {
+public final class JacksonSerializerBinder {
     private JacksonSerializerBinder() { }
 
     /**
