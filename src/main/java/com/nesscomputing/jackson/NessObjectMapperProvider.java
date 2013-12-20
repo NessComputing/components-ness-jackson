@@ -54,7 +54,7 @@ class NessObjectMapperProvider implements Provider<ObjectMapper>
     {
         this.jsonFactory = jsonFactory;
 
-    	// This needs to be set, otherwise the mapper will fail on every new property showing up.
+        // This needs to be set, otherwise the mapper will fail on every new property showing up.
         featureMap.put(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // Don't write out nulls by default -- if you really want them, you can change it with setOptions later.
