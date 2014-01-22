@@ -19,11 +19,15 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -42,7 +46,7 @@ public class TestCustomUuidModule
 {
     // This test ensures that the CustomUuidModule is correctly installed
     @Test
-    public void testCustomUUID() throws Exception {
+    public void testCustomUUIDDeserialization() throws Exception {
         final UUID orig = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
         final AtomicBoolean called = new AtomicBoolean(false);
         ObjectMapper mapper = getObjectMapper(new AbstractModule() {
@@ -63,6 +67,29 @@ public class TestCustomUuidModule
         });
         UUID uuid = mapper.readValue('"' + orig.toString() + '"', new TypeReference<UUID>(){});
         Assert.assertEquals(orig, uuid);
+        Assert.assertTrue(called.get());
+    }
+
+    @Test
+    public void testCustomUUIDSerialization() throws Exception {
+        final AtomicBoolean called = new AtomicBoolean(false);
+        ObjectMapper mapper = getObjectMapper(new AbstractModule() {
+            @Override
+            protected void configure()
+            {
+                bind (new TypeLiteral<JsonSerializer<UUID>>() {}).toInstance(new CustomUuidSerializer() {
+                    @Override
+                    public void serialize(UUID value, JsonGenerator jgen, SerializerProvider provider)
+                    throws IOException, JsonGenerationException
+                    {
+                        called.set(true);
+                        super.serialize(value, jgen, provider);
+                    }
+                });
+            }
+        });
+        final UUID id = new UUID(9, 9);
+        Assert.assertEquals('"' + id.toString() + '"', mapper.writeValueAsString(id));
         Assert.assertTrue(called.get());
     }
 

@@ -30,7 +30,8 @@ class CustomUuidDeserializer extends UUIDDeserializer
 
     @Override
     protected UUID _deserialize(String value, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    throws IOException, JsonProcessingException
+    {
         return NessUUID.fromString(value);
     }
 }
