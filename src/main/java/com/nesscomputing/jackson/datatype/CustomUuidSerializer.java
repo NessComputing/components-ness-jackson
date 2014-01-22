@@ -15,22 +15,29 @@
  */
 package com.nesscomputing.jackson.datatype;
 
+import java.io.IOException;
 import java.util.UUID;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.google.inject.Inject;
 
-class CustomUuidModule extends SimpleModule
-{
-    private static final long serialVersionUID = 1L;
+import com.nesscomputing.uuid.NessUUID;
 
+class CustomUuidSerializer extends StdSerializer<UUID>
+{
     @Inject
-    public CustomUuidModule(JsonDeserializer<UUID> d, JsonSerializer<UUID> s) {
-        super("CustomUuidModule", new Version(2, 0, 0, null, "com.nesscomputing.components", "ness-jackson/CustomUuidModule"));
-        addDeserializer(UUID.class, d);
-        addSerializer(UUID.class, s);
+    CustomUuidSerializer()
+    {
+        super(UUID.class);
+    }
+
+    @Override
+    public void serialize(UUID value, JsonGenerator jgen, SerializerProvider provider)
+    throws IOException, JsonGenerationException
+    {
+        jgen.writeString(NessUUID.toString(value));
     }
 }
