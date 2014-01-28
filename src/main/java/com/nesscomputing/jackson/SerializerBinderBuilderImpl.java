@@ -31,10 +31,10 @@ import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.util.Types;
 
+import com.nesscomputing.callback.Callback;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import com.nesscomputing.callback.Callback;
 
 class SerializerBinderBuilderImpl<T> implements SerializerBinderBuilder<T> {
     private static final TypeReference<byte[]> BYTEA_TYPE = new TypeReference<byte[]>() {};

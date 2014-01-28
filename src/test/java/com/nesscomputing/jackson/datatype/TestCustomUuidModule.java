@@ -32,11 +32,11 @@ import com.google.inject.Stage;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Modules;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.nesscomputing.config.ConfigModule;
 import com.nesscomputing.jackson.NessJacksonModule;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TestCustomUuidModule
 {

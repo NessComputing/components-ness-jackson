@@ -16,6 +16,7 @@
 package com.nesscomputing.jackson;
 
 import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -41,10 +42,10 @@ import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.util.Modules;
 
+import com.nesscomputing.config.ConfigModule;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.nesscomputing.config.ConfigModule;
 
 public class TestNessObjectMapperProvider
 {

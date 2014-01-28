@@ -25,10 +25,10 @@ import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
+import com.nesscomputing.config.ConfigModule;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import com.nesscomputing.config.ConfigModule;
 
 public class TestMapEntryDeserialization
 {

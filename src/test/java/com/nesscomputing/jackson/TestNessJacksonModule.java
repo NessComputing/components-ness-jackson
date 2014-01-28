@@ -21,11 +21,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
 
+import com.nesscomputing.config.ConfigModule;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.nesscomputing.config.ConfigModule;
 
 public class TestNessJacksonModule
 {

@@ -25,10 +25,10 @@ import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.name.Names;
 
+import com.nesscomputing.config.ConfigModule;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.nesscomputing.config.ConfigModule;
 
 public class TestJacksonFormatObjectMapperProvider
 {

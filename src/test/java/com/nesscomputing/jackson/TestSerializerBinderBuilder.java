@@ -23,10 +23,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
-import org.junit.Test;
-
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigModule;
+
+import org.junit.Test;
 
 public class TestSerializerBinderBuilder {
 
