@@ -24,7 +24,7 @@
   <description>Jackson related code</description>
 
   <properties>
-    <dep.jackson.version>2.2.3</dep.jackson.version>
+    <dep.jackson.version>2.12.6.1</dep.jackson.version>
   </properties>
 
   <dependencies>
